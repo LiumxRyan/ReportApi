@@ -1,5 +1,8 @@
 package work.douzi.report.util;
 
+/**
+ * @author Ryan
+ */
 public enum ResultCode {
 
     SUCCESS_200("200", "请求成功"),

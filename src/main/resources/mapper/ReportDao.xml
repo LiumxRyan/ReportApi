@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="work.douzi.report.dao.ReportDao">
+
+    <select id="count" resultType="Integer">
+        SELECT count(0)
+        FROM `report` r
+        <where>
+            <if test="report_name != null and report_name != ''">
+                report_name LIKE concat('%', #{report_name}, '%')
+            </if>
+            <if test="create_user_name != null and create_user_name != ''">
+                AND create_user_name LIKE concat('%', #{create_user_name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="list" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT r.*
+        FROM `report` r
+        <where>
+            <if test="report_name != null and report_name != ''">
+                report_name LIKE concat('%', #{report_name}, '%')
+            </if>
+            <if test="create_user_name != null and create_user_name != ''">
+                AND create_user_name LIKE concat('%', #{create_user_name}, '%')
+            </if>
+        </where>
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="list2" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT r.*
+        FROM `report` r
+    </select>
+
+    <insert id="add" parameterType="com.alibaba.fastjson.JSONObject">
+        insert into report(report_name, achievement, problem, plan, create_time, create_user, create_user_name)
+        values (#{report_name}, #{achievement}, #{problem}, #{plan}, #{create_time}, #{create_user}, #{create_user_name})
+    </insert>
+
+    <delete id="delete">
+        delete from report where report_id = #{report_id}
+    </delete>
+
+    <update id="edit" parameterType="com.alibaba.fastjson.JSONObject">
+        update report
+        <set>
+            <if test="report_name != null and report_name != ''">
+                report_name = #{report_name},
+            </if>
+            <if test="achievement != null and achievement != ''">
+                achievement = #{achievement},
+            </if>
+            <if test="problem != null and problem != ''">
+                problem = #{problem},
+            </if>
+            <if test="plan != null and plan != ''">
+                plan = #{plan},
+            </if>
+            <if test="create_time != null and create_time != ''">
+                create_time = #{create_time},
+            </if>
+            <if test="create_user != null">
+                create_user = #{create_user},
+            </if>
+            <if test="create_user_name != null and create_user_name != ''">
+                create_user_name = #{create_user_name},
+            </if>
+        </set>
+        where report_id = #{report_id}
+    </update>
+
+</mapper>
