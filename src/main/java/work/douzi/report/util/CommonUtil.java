@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.List;
 
+/**
+ * @author Ryan
+ */
 public class CommonUtil {
 
     public static JSONObject resultJson(ResultCode resultCode){
@@ -67,7 +70,7 @@ public class CommonUtil {
     }
 
     public static void hasAllRequired(final JSONObject jsonObject, String requiredColumns) {
-        if (!StringUtil.isNullOrEmpty(requiredColumns)) {
+        if (StringUtil.isNullOrEmpty(requiredColumns)) {
             String[] columns = requiredColumns.split(",");
             String missCol = "";
             for (String column : columns) {
@@ -76,7 +79,7 @@ public class CommonUtil {
                     missCol += column + "  ";
                 }
             }
-            if (!StringUtil.isNullOrEmpty(missCol)) {
+            if (StringUtil.isNullOrEmpty(missCol)) {
                 jsonObject.clear();
                 jsonObject.put("code", ResultCode.ERROR_1007.getResultCode());
                 jsonObject.put("msg", ResultCode.ERROR_1007.getResultMsg()+":" + missCol.trim());
